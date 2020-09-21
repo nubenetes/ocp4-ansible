@@ -206,7 +206,7 @@ The following procedure deploys [Group Sync Operator](https://github.com/redhat-
         - 'view'       # 'view' role within the Project/Namespace scope
     ```
 
-10. Launch you Ansible Template in order to deploy **Group Sync Operator with GitHub Teams and RBAC**.
+10. Launch your Ansible Template in order to deploy **Group Sync Operator with GitHub Teams and RBAC**.
 
 ## References
 ### GitHub Identity Provider
