@@ -7,9 +7,9 @@ The above roles were developed and integrated with clone of [this repo](https://
 
 This shared code is kind of simple, although to be honest it took me a while to find the working solution considering my lack of ansible projects for the last two years. It was also my first significant experience with Ansible Tower (I am more familiar with Jenkins to even manage ansible or terraform jobs). We had no access to the server hosting Ansible Tower and a bit of reverse engineering was needed to identify the right file paths among other details.
 
-Ansible's k8s module was implemented following the tips of the team leader (the mentioned red hat consultant).
+Ansible's k8s module was implemented following the good tips of the team leader (the mentioned red hat consultant).
 
-I remembered how [variables](site.yml) can be defined in a data structure to define and setup a major issue not yet implemented by the customer: and **IDP like GitHub with RBAC permissions**. 
+I remembered how [variables](site.yml) with nested items (lists and dictionaries) can be defined in a data structure to define and setup a major issue not yet implemented by the customer: and **IDP like GitHub with RBAC permissions**. 
 
 The design of this data structure and how to recover nested values from it with ansible's loop or ansible's with_subelements was also a needed achievement to learn how to setup and automate other complex tasks. See ansible task ['Apply Roles to Groups'](roles/ocp4-github-idp/tasks/rbac.yml) & ansible task ['Apply Default Quota to All Projects that END with a string'](roles/ocp4-project-quota-management/tasks/project-quota.yml).
 
