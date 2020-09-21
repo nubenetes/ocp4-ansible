@@ -27,6 +27,7 @@ There's room for improvement on this code:
 [Ansible Tower](https://www.ansible.com/products/tower) or [Ansible AWX](https://github.com/ansible/awx) are not the only solutions to run ansible playbooks and roles:
 - [Jenkins](https://www.jenkins.io/): My favourite one since it provides a large number of plugins and connectors. Plugins like OpenShift, Kubernetes, Terraform, Ansible, Packer, vaults and others can boost your productivity with the most popular CI tool among developers and devops engineers. Traceability of triggered jobs is easily achieved with logs collected on each jenkins job. Ansible Tower also provides logs but I find them with limited functionality when compared to jenkins (perhaps this can be customized accordingly).
 - [Foreman](https://www.theforeman.org/)
+- [Rundeck](https://www.rundeck.com/ansible)
 - etc
 
 ## Namespace Configuration & Teams onboarding
