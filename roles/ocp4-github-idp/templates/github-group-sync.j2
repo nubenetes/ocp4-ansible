@@ -1,0 +1,17 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: GroupSync
+metadata:
+  name: github-groupsync
+spec:
+  providers:
+  - name: github
+    github:
+      organization: {{ github_groupsync_organization }}
+      teams: 
+      {% for team in github_groupsync_teams %}
+      - {{ team.github_team }}
+      {% endfor %}
+
+      credentialsSecret: 
+        name: github-group-sync
+        namespace: group-sync-operator

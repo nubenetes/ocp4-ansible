@@ -1,0 +1,99 @@
+---
+#### Cluster Vars
+#ocp_cluster: '<my_clustername>'
+#kubeconfig: '/var/lib/awx/.kube/{{ ocp_cluster }}'
+
+# OAUTH & RBAC & Projects (RED-311 + RED-348):
+# OAuth
+oauth: github
+ocp4_remove_kubeadmin: False
+removeselfprovisioning: True
+#oauth-github-idp 
+github_client_id: 08e7a8689608e7a8689b
+github_teams:
+  - <my_github_organization>/devops-cloud-admin
+  - <my_github_organization>/devops-cloud-view
+  - <my_github_organization>/project1-admin
+  - <my_github_organization>/project1-view
+  - <my_github_organization>/project1-edit
+# github-group-sync & rbac & projects
+github_groupsync_organization: <my_github_organization>
+github_groupsync_teams:
+  - github_team: 'devops-cloud-admin'
+    cluster_roles: # add-cluster-role-to-group
+      - 'cluster-admin'            # 'cluster-admin' role
+      - 'cluster-monitoring-view'  # Enabling access to Grafana and Kibana via cluster-monitoring-view cluster role
+    roles: []      # groups with 'cluster-admin' cluster role don't need project roles
+  - github_team: 'devops-cloud-view'
+    cluster_roles: # add-cluster-role-to-group
+      - 'view'     # 'view' cluster role
+      - 'cluster-monitoring-view' 
+    roles: []      # groups with 'view' cluster role don't need project roles
+  - github_team: 'project1-admin'
+    project: project1   # project/namespace in OCP
+    cluster_roles: 
+      - 'cluster-monitoring-view' # Enabling access to Grafana and Kibana via cluster-monitoring-view cluster role
+    roles:   # add-role-to-group
+      - 'admin'                   # 'admin' role within the Project/Namespace scope
+  - github_team: 'project1-edit'
+    project: project1   # project/namespace in OCP
+    cluster_roles: []
+    roles: 
+      - 'edit'                    # 'edit' role within the Project/Namespace scope
+  - github_team: 'project1-view'
+    project: project1   # project/namespace in OCP
+    cluster_roles:
+      - 'cluster-monitoring-view'
+    roles: 
+      - 'view'                    # 'view' role within the Project/Namespace scope
+
+# Namespace/Project Management (RED-323 + RED-366):
+#  - Creation/Destroy
+#  - Quotas & limits
+#  - Network Policy
+
+# Project Quota Management (quota + limits)
+# Apply Default Quota to All Projects that start with a name ('selector' in this task)
+apply_default_quota_to_existing_projects: true  # Apply <default_quota_to_existing_projects> to existing projects filtered by a "selector"
+default_quota_to_existing_projects: small
+default_quota_to_existing_projects_selectors_start_with:
+  - default
+  - dev-    # all projects with a name that starts with "dev-" string -> <default_quota_to_existing_projects> template will be applied
+  - qa-    # all projects with a name that starts with "qa-" string -> <default_quota_to_existing_projects> template will be applied
+  - prod-    # all projects with a name that starts with "prod-" string -> <default_quota_to_existing_projects> template will be applied
+  - project # all projects with a name that starts with "project" string -> <default_quota_to_existing_projects> template will be applied
+default_quota_to_existing_projects_selectors_end_with:
+  - -dev    # all projects with a name that ends with "-dev" string -> <default_quota_to_existing_projects> template will be applied
+  - -qa     # all projects with a name that ends with "-qa" string -> <default_quota_to_existing_projects> template will be applied
+  - -prod   # all projects with a name that ends with "-prod" string -> <default_quota_to_existing_projects> template will be applied
+
+# Project Creation 
+# Enable quota per project with "small" default quota.
+# Projects are created if they do not exist.
+enable_project_quota_management: true   # Enable quota granularity per project
+project_quota_management:
+  - project: 'project1'
+    quota: small  # Default quota
+  - project: 'project2'
+    quota: medium
+  - project: 'project3'
+    # default quota is 'small', hence 'small' should be assigned to this project where quota is not specified
+  - project: 'project4'
+    quota: large
+  - project: 'project5'
+    quota: medium
+  - project: 'project6'
+    quota: medium
+  - project: 'project7'
+    quota: small
+  - project: 'project8'
+    quota: small
+  - project: 'project9'
+    quota: small
+
+destroy_projects: true   # Enable destruction of Projects/Namespaces
+destroy_projects_list:
+  - 'project7'
+  - 'project8'
+  - 'project9'
+

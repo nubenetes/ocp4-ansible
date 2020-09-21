@@ -1,0 +1,11 @@
+---
+
+# Do not modify this file
+- debug:
+    var: action
+
+- block: 
+    - import_tasks: project-quota.yml            # namespaces need to be created before applying rbac. To do: quota management
+  when: enable_project_quota_management | bool
+
+

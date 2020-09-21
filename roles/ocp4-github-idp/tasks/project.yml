@@ -1,0 +1,15 @@
+---
+# https://github.com/redhat-cop/openshift-toolkit/tree/master/quota-management
+
+- name: '[POST-OAUTH][PROJECT] Create Namespace (always use quote filter to avoid injection)' 
+  command:  /usr/bin/oc new-project {{ item.0.project|quote }}
+  with_subelements:
+    - "{{ github_groupsync_teams }}"
+    - roles
+  when: item.1 is defined 
+  register: result
+  failed_when:
+    - result.rc == 0
+    - '"already exists" not in result.stdout'
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"

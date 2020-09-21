@@ -1,0 +1,67 @@
+---
+
+# https://github.com/redhat-cop/openshift-toolkit/tree/master/quota-management
+# https://docs.openshift.com/container-platform/4.4/applications/projects/configuring-project-creation.html
+
+- name: '[POST-OAUTH][PROJECT-QUOTA][PROJECT-DEFAULT-TEMPLATE] Modifying the template for new projects' 
+  command: /usr/bin/oc apply -f roles/ocp4-post-project-quota-management/files/default-project-template.yaml -n openshift-config
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
+
+- name: Apply Default Quota to All Projects that START with a name ('selector' in this task)
+  block:
+    - name: Selector - Get List of OpenShift Projects that START with
+      shell: >
+        /usr/bin/oc get projects -o name | /usr/bin/cut -d/ -f2 | /usr/bin/grep ^"{{ item|quote }}"
+      register: openshift_namespaces
+      loop: "{{ default_quota_to_existing_projects_selectors_start_with }}"
+      ignore_errors: True   # errors like when a selector doesn't find a match for a project name.
+    - name: Apply Default Quota and Limits to All Projects
+      command: >
+        /usr/bin/oc apply -f roles/ocp4-post-project-quota-management/files/quota-{{ default_quota_to_existing_projects|quote }}.yml -n "{{ item.1|quote }}" 
+      loop: "{{ openshift_namespaces.results|subelements('stdout_lines') }}" 
+      when: item.1 is defined 
+  when: apply_default_quota_to_existing_projects|bool
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
+
+- name: Apply Default Quota to All Projects that END with a name ('selector' in this task)
+  block:
+    - name: Selector - Get List of OpenShift Projects that END with
+      shell: >
+        /usr/bin/oc get projects -o name | /usr/bin/cut -d/ -f2 | /usr/bin/grep -E "{{ item|quote }}"
+      register: openshift_namespaces
+      loop: "{{ default_quota_to_existing_projects_selectors_end_with }}"
+      ignore_errors: True   # errors like when a selector doesn't find a match for a project name.
+    - name: Apply Default Quota and Limits to All Projects
+      command: >
+        /usr/bin/oc apply -f roles/ocp4-post-project-quota-management/files/quota-{{ default_quota_to_existing_projects|quote }}.yml -n "{{ item.1|quote }}" 
+      loop: "{{ openshift_namespaces.results|subelements('stdout_lines') }}" 
+      when: item.1 is defined 
+  when: apply_default_quota_to_existing_projects|bool
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
+
+- name: '[POST-OAUTH][PROJECT-QUOTA] New Project (always use quote filter to avoid injection)'   
+  shell: /usr/bin/oc new-project {{ item.project|quote }} 
+  loop: "{{ project_quota_management }}"
+  ignore_errors: True
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
+
+- name: '[POST-OAUTH][PROJECT-QUOTA] Apply Quota to Project (always use quote filter to avoid injection)'   
+  command: /usr/bin/oc apply -f roles/ocp4-post-project-quota-management/files/quota-{{ item.quota|quote }}.yml -n {{ item.project|quote }} 
+  loop: "{{ project_quota_management }}"
+  when: item.quota is defined 
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
+
+- name: '[POST-OAUTH][PROJECT-QUOTA] Project Destruction'   
+  command: /usr/bin/oc delete project {{ item|quote }} 
+  loop: "{{ destroy_projects_list }}"
+  #ignore_errors: True
+  when: destroy_projects|bool 
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
+
+

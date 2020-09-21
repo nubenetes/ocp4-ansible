@@ -1,0 +1,24 @@
+---
+
+# Do not modify this file
+- debug:
+    var: action
+
+- block: 
+    - import_tasks: oauth-github-idp.yml
+    - import_tasks: rbac-cleanup.yml       # simple solution to remove roles that are no longer assigned to groups
+    - import_tasks: github-group-sync.yml
+    - import_tasks: project.yml            # namespaces need to be created before applying rbac. To do: quota management
+    - import_tasks: rbac.yml
+  when: oauth == "github"
+
+- block:
+    - import_tasks: remove-kubeadmin.yml
+  when: ocp4_remove_kubeadmin | bool
+
+- block:
+    - import_tasks: remove-self-provisioner.yml
+  when: removeselfprovisioning | bool
+
+
+

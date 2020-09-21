@@ -1,0 +1,17 @@
+---
+# https://docs.openshift.com/container-platform/4.4/authentication/using-rbac.html
+
+- name: '[POST-OAUTH][RBAC-CLEANUP] Removes all defined groups and all of their roles (simple solution to remove roles that are no longer assigned to groups)' 
+  shell: /usr/bin/oc adm policy remove-group {{ item.0.github_team|quote }}
+  with_subelements:
+    - "{{ github_groupsync_teams }}"
+    - cluster_roles
+  when: item.1 is defined 
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
+
+- name: '[POST-OAUTH][RBAC-CLEANUP] oc get groups' 
+  shell: /usr/bin/oc get groups
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
+

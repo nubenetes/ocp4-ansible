@@ -1,0 +1,101 @@
+---
+# https://github.com/redhat-cop/group-sync-operator
+
+- name: '[POST-OAUTH][GITHUB-GROUP-SYNC] Create a new project called group-sync-operator'
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    name: group-sync-operator
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Clone the code repository with group-sync-operator
+  git:
+    repo: https://github.com/redhat-cop/group-sync-operator.git
+    dest: "{{ user_path }}/group-sync-operator"
+    force: yes
+
+- name: '[POST-OAUTH][GITHUB-GROUP-SYNC] Apply Manifests of group-sync-operator. 1 CRD'
+  k8s: 
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    src: "{{ user_path }}/group-sync-operator/deploy/crds/redhatcop.redhat.io_groupsyncs_crd.yaml"
+
+- name: '[POST-OAUTH][GITHUB-GROUP-SYNC] Apply Manifests of group-sync-operator. 2 Service Account'
+  k8s: 
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    src: "{{ user_path }}/group-sync-operator/deploy/service_account.yaml"
+    namespace: group-sync-operator
+
+- name: '[POST-OAUTH][GITHUB-GROUP-SYNC] Apply Manifests of group-sync-operator. 3 Cluster Role'
+  k8s: 
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    src: "{{ user_path }}/group-sync-operator/deploy/clusterrole.yaml"
+    namespace: group-sync-operator
+
+- name: '[POST-OAUTH][GITHUB-GROUP-SYNC] Apply Manifests of group-sync-operator. 4 Cluster Role Binding'
+  k8s: 
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    src: "{{ user_path }}/group-sync-operator/deploy/clusterrole_binding.yaml"
+    namespace: group-sync-operator
+
+- name: '[POST-OAUTH][GITHUB-GROUP-SYNC] Apply Manifests of group-sync-operator. 5 Role'
+  k8s: 
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    src: "{{ user_path }}/group-sync-operator/deploy/role.yaml"
+    namespace: group-sync-operator
+
+- name: '[POST-OAUTH][GITHUB-GROUP-SYNC] Apply Manifests of group-sync-operator. 6 Role Binding'
+  k8s: 
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    src: "{{ user_path }}/group-sync-operator/deploy/role_binding.yaml"
+    namespace: group-sync-operator
+
+- name: '[POST-OAUTH][GITHUB-GROUP-SYNC] Apply Manifests of group-sync-operator. 7 Operator'
+  k8s: 
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    src: "{{ user_path }}/group-sync-operator/deploy/operator.yaml"
+    namespace: group-sync-operator
+
+- name: '[POST-OAUTH][GITHUB-GROUP-SYNC] Apply secret: OAuth GitHub Personal Access Token with read:org permissions'
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    merge_type:
+    - strategic-merge
+    - merge
+    definition: "{{ lookup('template', item ) | from_yaml }}"
+  loop:
+  - ./templates/github-group-sync-secret.j2
+
+- name: '[POST-OAUTH][GITHUB-GROUP-SYNC] Apply github-group-sync manifest'
+  k8s: 
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    merge_type:
+    - strategic-merge
+    - merge
+    definition: "{{ lookup('template', item ) | from_yaml }}"
+  loop:
+  - ./templates/github-group-sync.j2
+
+- name: '[POST-OAUTH][GITHUB-GROUP-SYNC] Apply Roles to Groups (always use quote filter to avoid injection)' 
+  shell: /usr/bin/oc adm policy add-role-to-group {{ item.1|quote }} {{ item.0.github_team|quote }}
+  with_subelements:
+    - "{{ github_groupsync_teams }}"
+    - roles
+  when: item.1 is defined 
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
+
+- name: '[POST-OAUTH][GITHUB-GROUP-SYNC] oc get groups' 
+  shell: /usr/bin/oc get groups
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
+

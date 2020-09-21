@@ -1,0 +1,15 @@
+---
+# Perhaps better alternatives: 
+# https://github.com/redhat-cop/namespace-configuration-operator
+# https://github.com/redhat-cop/openshift-toolkit/tree/master/networkpolicy
+
+- name: '[POSTINSTALL][PROJECT-REQUEST-TEMPLATE] Add label to openshift-ingress project'
+  k8s:
+    state: present
+    merge_type:
+    - strategic-merge
+    - merge
+    definition: "{{ lookup('file', item ) | from_yaml }}"
+  loop:
+  - ./files/openshift-ingress-namespaces.yaml
+  when: install_network_policies | bool

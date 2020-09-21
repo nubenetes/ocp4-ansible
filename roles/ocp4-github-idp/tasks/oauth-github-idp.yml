@@ -1,0 +1,39 @@
+---
+#https://docs.openshift.com/container-platform/4.4/authentication/identity_providers/configuring-github-identity-provider.html
+
+- name: '[POST-OAUTH][GITHUB] oc delete existing OAuth GitHub Cient Secret (just in case)' 
+  shell: /usr/bin/oc delete secret github-client-secret -n openshift-config
+  ignore_errors: yes
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
+
+- name: '[POST-OAUTH][GITHUB] Apply OAuth GitHub Cient Secret manifest (not working due to inconsistency in base64 output)'
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    merge_type:
+    - strategic-merge
+    - merge
+    definition: "{{ lookup('template', item ) | from_yaml }}"
+  loop:
+  - ./templates/oauth-github-idp-secret.j2
+  #when: 0 > 1 # disabled
+
+- name: '[POST-OAUTH][GITHUB] oc create OAuth GitHub Cient Secret' 
+  shell: /usr/bin/oc create secret generic github-client-secret --from-literal=clientSecret={{ github_client_secret|quote }} -n openshift-config
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
+  when: 0 > 1 # disabled
+
+- name: '[POST-OAUTH][GITHUB] Apply OAuth GitHub IDP manifest'
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    merge_type:
+    - strategic-merge
+    - merge
+    definition: "{{ lookup('template', item ) | from_yaml }}"
+  loop:
+  - ./templates/oauth-github-idp.j2
+
+

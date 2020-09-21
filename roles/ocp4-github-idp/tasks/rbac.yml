@@ -1,0 +1,26 @@
+---
+# https://docs.openshift.com/container-platform/4.4/authentication/using-rbac.html
+
+- name: '[POST-OAUTH][RBAC] Apply Cluster Roles to Groups (always use quote filter to avoid injection)' 
+  shell: /usr/bin/oc adm policy add-cluster-role-to-group {{ item.1|quote }} {{ item.0.github_team|quote }}
+  with_subelements:
+    - "{{ github_groupsync_teams }}"
+    - cluster_roles
+  when: item.1 is defined 
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
+
+- name: '[POST-OAUTH][RBAC] Apply Roles to Groups (always use quote filter to avoid injection)' 
+  shell: /usr/bin/oc adm policy add-role-to-group {{ item.1|quote }} {{ item.0.github_team|quote }} -n {{ item.0.project|quote }}
+  with_subelements:
+    - "{{ github_groupsync_teams }}"
+    - roles
+  when: item.1 is defined 
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
+
+- name: '[POST-OAUTH][RBAC] oc get groups' 
+  shell: /usr/bin/oc get groups
+  environment:
+    K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
+
