@@ -17,7 +17,7 @@ Another interesting point is how to recover and filtered out data from OCP with 
 
 **Security in Cloud technologies like OpenShift is a must.**. Please avoid using cluster-admin unless absolutely necessary.
 
-Lastly, provisioning secrets with Ansible Tower's vault was also a requirement to make sure no secrets where saved in a repository. See the documented procedure [here](roles/ocp4-github-idp/README.md).
+Lastly, **provisioning secrets** with **Ansible Tower's vault** was also a requirement to make sure no secrets where saved in a repository. See the documented procedure [here](roles/ocp4-github-idp/README.md).
 
 There's room for improvement on this code: 
 - *K8S_AUTH_KUBECONFIG* & ansible k8s' *kubeconfig* should be defined globally or per playbook instead of per ansible task (they couldn't be implemented by some constraints with the base code or Ansible Tower's config).
