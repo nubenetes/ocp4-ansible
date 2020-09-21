@@ -17,6 +17,10 @@ Another interesting point is how to recover and filtered out data from OCP with 
 
 **Security in Cloud technologies like OpenShift is a must.**. Please avoid using cluster-admin unless absolutely necessary.
 
+There's room for improvement for this code: 
+- *K8S_AUTH_KUBECONFIG* & ansible k8s' *kubeconfig* should be defined globally or per playbook instead of per ansible task (they couldn't be implemented by some constraints with the base code or the Tower's config).
+- ansible's with_subelements is deprecated and "loop" should be implemented instead.
+
 Regarding the automation of Namespace Configuration & teams onboarding, the following solutions can be a good approach if you don't want to reinvent the wheel while saving time, money and headaches:
 - https://github.com/redhat-cop/namespace-configuration-operator
 - https://github.com/redhat-cop/openshift-toolkit/tree/master/networkpolicy
