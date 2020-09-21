@@ -8,7 +8,7 @@
   environment:
     K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
 
-- name: Apply Default Quota to All Projects that START with a name ('selector' in this task)
+- name: Apply Default Quota to All Projects that START with a string ('selector' in this task)
   block:
     - name: Selector - Get List of OpenShift Projects that START with
       shell: >
@@ -25,7 +25,7 @@
   environment:
     K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
 
-- name: Apply Default Quota to All Projects that END with a name ('selector' in this task)
+- name: Apply Default Quota to All Project that END with a string ('selector' in this task)
   block:
     - name: Selector - Get List of OpenShift Projects that END with
       shell: >
