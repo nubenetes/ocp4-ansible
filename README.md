@@ -15,7 +15,7 @@ The design of this data structure and how to recover values from it with ansible
 
 Another interesting point is how to recover and filtered out data from OCP with i.e. an oc command, data that is then saved and processed in a json variable. See ansible task ['Apply Default Quota to All Projects that END with a name'](roles/ocp4-project-quota-management/tasks/project-quota.yml).
 
-**Security in Cloud technologies like OpenShift is a must.**. Please avoid using cluster-admin unless absolutely necessary.
+**Security in Cloud technologies like OpenShift is a must. Please avoid using cluster-admin unless absolutely necessary.**
 
 Lastly, **provisioning secrets** with **Ansible Tower's vault** was also a requirement to make sure no secrets where saved in a repository. See the documented procedure [here](roles/ocp4-github-idp/README.md).
 

@@ -162,7 +162,7 @@ The following procedure deploys [Group Sync Operator](https://github.com/redhat-
     - VAULT PASSWORD: your **Vault Password** generated in **step #5** 
     - VAULT IDENTIFIER: **vault-<my_clustername>** 
 8.   Add already defined **vault-<my_clustername>** to your Tower -> Templates -> \<your template\> -> **CREDENTIALS**. Multiple credentials can be added simultaneously.
-9.  Setup **vars.yml** accordingly: Fill in **github_groupsync_organization** and **github_groupsync_teams** with the list of teams (groups) defined in your GitHub Organization that you want to synchronize against your OCP Cluster. **RBAC permissions** granted to each team/group (at the cluster level or Project level) are defined here as well:
+9.  Setup **site.yml** accordingly: Fill in **github_groupsync_organization** and **github_groupsync_teams** with the list of teams (groups) defined in your GitHub Organization that you want to synchronize against your OCP Cluster. **RBAC permissions** granted to each team/group (at the cluster level or Project level) are defined here as well:
 
     ```yaml
     # OAUTH  & RBAC & Projects
