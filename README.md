@@ -1,4 +1,4 @@
-# ocp4-ansible
+# Configuration Management of OpenShift 4 with Ansible Roles and Ansible Tower
 My ansible roles for OpenShift 4:
 - [ocp4-github-idp](roles/ocp4-github-idp/README.md)
 - [ocp4-project-quota-management](roles/ocp4-project-quota-management/README.md)
