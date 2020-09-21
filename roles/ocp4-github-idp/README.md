@@ -18,7 +18,7 @@ The following procedure sets up from scratch OpenShift Container Platform 4 with
    - Application Name: **<my_base_domain.com>**
    - Homepage URL: **https://oauth-openshift.apps.<my_clustername>.<my_base_domain.com>**
    - Application description: OpenShift Container Platform Disaster Recovery Cluster
-   - Authorization callback URL: **https://oauth-openshift.apps.<my_clustername>.<my_base_domain>.com/oauth2callback/githubidp/**
+   - Authorization callback URL: **https://oauth-openshift.apps.<my_clustername>.<my_base_domain.com>/oauth2callback/githubidp/**
 
 2. Grab the created **token values** for **Client ID** and **Client Secret**. They will be used in the following steps.
 
