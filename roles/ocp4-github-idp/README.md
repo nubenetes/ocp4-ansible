@@ -108,7 +108,7 @@ The following procedure deploys [Group Sync Operator](https://github.com/redhat-
 1. Create an [OAuth Personal Access Token in your github account](https://github.com/settings/tokens) to authenticate *Group Sync Operator* against GitHub: 
 
    - GitHub -> settings -> Personal access tokens -> Generate new token:  
-    - Note: **group-sync-operator-<my_clustername>*
+    - Note: **group-sync-operator-<my_clustername>**
     - Select scopes: **read:org**
     
 2. Copy the token generated in step #1 and save it in [our shared keypass database](https://github.com/<my_github_organization>/devops-tools/tree/master/keypass).
