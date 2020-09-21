@@ -21,7 +21,7 @@ Lastly, **provisioning secrets** with **Ansible Tower's vault** was also a requi
 
 There's room for improvement on this code: 
 - *K8S_AUTH_KUBECONFIG* & ansible k8s' *kubeconfig* should be defined globally or per playbook instead of per ansible task (they couldn't be implemented by some constraints with the base code or Ansible Tower's config).
-- ansible's with_subelements is deprecated and "loop" should be implemented instead.
+- ansible's with_subelements is deprecated and "ansible loop subelements" should be implemented instead.
 
 ## Alternatives to Ansible Tower (in case you don't want to learn a new tool)
 [Ansible Tower](https://www.ansible.com/products/tower) or [Ansible AWX](https://github.com/ansible/awx) are not the only solutions to run ansible playbooks and roles:
