@@ -3,7 +3,7 @@ My ansible roles for OpenShift 4:
 - [ocp4-github-idp](roles/ocp4-github-idp/README.md)
 - [ocp4-project-quota-management](roles/ocp4-project-quota-management/README.md)
 
-The above roles were developed and integrated with clone of [this repo](https://github.com/rcarrata/ocp4-auto-install) while collaborating within a devops team and the owner of the mentioned repo (a Red Hat architect). This collaboration based on automation tasks lasted for only 2-3 weeks, where I learnt how to develop and run code with the existing Ansible Tower and an existing code base (both implemented and sometimes controlled by Red Hat for a Customer with OCP4 on AWS). 
+The above roles were developed and integrated with a clone of [this repo](https://github.com/rcarrata/ocp4-auto-install) while collaborating within a devops team and the owner of the mentioned repo (a Red Hat architect). This collaboration based on automation tasks lasted for only 2-3 weeks, where I learnt how to develop and run code with the existing Ansible Tower and an existing code base (both implemented and sometimes controlled by Red Hat for a Customer with OCP4 on AWS). 
 
 This shared code is kind of simple, although to be honest it took me a while to find the working solution considering my lack of ansible projects for the last two years. It was also my first significant experience with Ansible Tower (I am more familiar with Jenkins to even manage ansible or terraform jobs). We had no access to the server hosting Ansible Tower and a bit of reverse engineering was needed to identify the right file paths among other details.
 
