@@ -11,7 +11,8 @@ Ansible's k8s module was applied following the tips of the team leader (red hat 
 
 I remembered how [variables](site.yml) can be defined in a data structure to define and setup a major issue not yet implemented by the customer: and **IDP like GitHub with RBAC permissions**. 
 
-The design of this data structure and how to recover values from it with ansible's loop or ansible's with_subelements (see ansible task ['Apply Default Quota to All Projects that END with a name'](roles/ocp4-github-idp/tasks/rbac.yml)) was also a needed achievement to learn how to setup and automate other complex tasks. 
+The design of this data structure and how to recover values from it with ansible's loop or ansible's with_subelements (see ansible task ['Apply Roles to Groups'](roles/ocp4-github-idp/tasks/rbac.yml) & ansible task ['Apply Default Quota to All Projects that END with a name'](roles/ocp4-project-quota-management/tasks/project-quota.yml)) was also a needed achievement to learn how to setup and automate other complex tasks. 
+
 Another interesting point is how to recover and filtered out data from OCP with i.e. an oc command, data that is then saved in memory and processed as a json file (see ansible task ['Apply Default Quota to All Projects that END with a name'](roles/ocp4-project-quota-management/tasks/project-quota.yml)).
 
 **Security in Cloud technologies like OpenShift is a must.**. Please avoid using cluster-admin unless absolutely necessary.
