@@ -19,11 +19,12 @@ Another interesting point is how to recover and filter out data from OCP with i.
 
 Lastly, **provisioning secrets** with **Ansible Tower's vault** was also a requirement to make sure no secrets where saved in a repository. See the documented procedure [here](roles/ocp4-github-idp/README.md).
 
+## Improvements
 There's room for improvement on this code: 
 - *K8S_AUTH_KUBECONFIG* & ansible k8s' *kubeconfig* should be defined globally or per playbook instead of per ansible task (they couldn't be implemented by some constraints with the base code or Ansible Tower's config).
 - ansible's with_subelements is deprecated and "ansible loop subelements" should be implemented instead.
 
-# How to export kubernetes resources without metadata to be used as templates
+## How to export kubernetes resources without metadata to be used as templates
 ```oc/kubectl --export``` is deprecated. Setup one of the following [kubectl plugins](https://github.com/kubernetes-sigs/krew-index/blob/master/plugins.md) in order to export kubernetes resources without metadata. You will obtain a valid kubernetes manifest that can be applied as a template in your ansible tasks:
 - [kubectl-neat](https://github.com/itaysk/kubectl-neat) Remove clutter from Kubernetes manifests to make them more readable.
 - [kubectl-eksporter](https://github.com/Kyrremann/kubectl-eksporter) is a kubectl plugin designed to export Kubernetes resources, and remove pre-defined set of fields. You can finally export resources with `kubectl get pod <pod-id> -o yaml` and skip the `status` field
