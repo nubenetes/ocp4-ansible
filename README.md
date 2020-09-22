@@ -23,6 +23,11 @@ There's room for improvement on this code:
 - *K8S_AUTH_KUBECONFIG* & ansible k8s' *kubeconfig* should be defined globally or per playbook instead of per ansible task (they couldn't be implemented by some constraints with the base code or Ansible Tower's config).
 - ansible's with_subelements is deprecated and "ansible loop subelements" should be implemented instead.
 
+# How to export kubernetes resources without metadata to be used as templates
+```oc/kubectl --export``` is deprecated. Setup one of the following [kubectl plugins](https://github.com/kubernetes-sigs/krew-index/blob/master/plugins.md) in order to export kubernetes resources without metadata. You will obtain a valid kubernetes manifest that can be applied as a template in your ansible tasks:
+- [kubectl-neat](https://github.com/itaysk/kubectl-neat) Remove clutter from Kubernetes manifests to make them more readable.
+- [kubectl-eksporter](https://github.com/Kyrremann/kubectl-eksporter) is a kubectl plugin designed to export Kubernetes resources, and remove pre-defined set of fields. You can finally export resources with `kubectl get pod <pod-id> -o yaml` and skip the `status` field
+
 ## Alternatives to Ansible Tower (in case you don't want to learn a new tool)
 [Ansible Tower](https://www.ansible.com/products/tower) or [Ansible AWX](https://github.com/ansible/awx) are not the only solutions to run ansible playbooks and roles:
 - [Jenkins](https://www.jenkins.io/): My favourite one since it provides a large number of plugins and connectors. Plugins like OpenShift, Kubernetes, Terraform, Ansible, Packer, vaults and others can boost your productivity with the most popular CI tool among developers and devops engineers. Traceability of triggered jobs is easily achieved with logs collected on each jenkins job. Ansible Tower also provides logs but I find them with limited functionality when compared to jenkins (perhaps this can be customized accordingly).
