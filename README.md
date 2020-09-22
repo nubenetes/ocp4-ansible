@@ -24,6 +24,9 @@ There's room for improvement on this code:
 - *K8S_AUTH_KUBECONFIG* & ansible k8s' *kubeconfig* should be defined globally or per playbook instead of per ansible task (they couldn't be implemented by some constraints with the base code or Ansible Tower's config).
 - ansible's with_subelements is deprecated and "ansible loop subelements" should be implemented instead.
 
+### Automated management of github teams and users with GitHub API Rest
+[GitHub IDP on OCP4](https://docs.openshift.com/container-platform/4.5/authentication/identity_providers/configuring-github-identity-provider.html) requires groups (GitHub Teams) and users to be setup manually via GitHub Web UI. [GitHub API Rest](https://docs.github.com/en/rest/reference/teams) can be a good approach in case you need an automated and scalable solution or a sync against your i.e. on-premises LDAP. Hopefully [github cli](https://cli.github.com/) will also provide this functionality in the near future.
+
 ## How to export kubernetes resources without metadata to be used as templates
 ```oc/kubectl --export``` is deprecated (click [here](https://stackoverflow.com/questions/43941772/get-yaml-for-deployed-kubernetes-services)). Setup one of the following [kubectl plugins](https://github.com/kubernetes-sigs/krew-index/blob/master/plugins.md) in order to export kubernetes resources without metadata. You will obtain a valid kubernetes manifest that can be applied as a template in your ansible tasks:
 - [kubectl-neat](https://github.com/itaysk/kubectl-neat) Remove clutter from Kubernetes manifests to make them more readable.
