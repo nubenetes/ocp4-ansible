@@ -15,7 +15,7 @@ The design of this data structure and how to recover nested values from it with 
 
 Another interesting point is how to recover and filter out data from OCP with i.e. an oc command, data (a list of kubernetes resources) that is then saved and processed in a json variable. See ansible task ['Apply Default Quota to All Projects that END with a string'](roles/ocp4-project-quota-management/tasks/project-quota.yml).
 
-**Security in Cloud technologies like OpenShift is a must. Please avoid using cluster-admin unless absolutely necessary. Likewise, don't run Proof of Concepts in production clusters.**
+**Security in Cloud technologies like OpenShift is a must. Please avoid using cluster-admin unless absolutely necessary. Likewise, please don't run Proof of Concepts in production clusters.**
 
 Lastly, **provisioning secrets** with **Ansible Tower's vault** was also a requirement to make sure no secrets where saved in a repository. See the documented procedure [here](roles/ocp4-github-idp/README.md).
 
