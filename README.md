@@ -44,3 +44,4 @@ Regarding the automation of Namespace Configuration & teams onboarding, the foll
 - https://github.com/redhat-cop/namespace-configuration-operator
 - https://github.com/redhat-cop/openshift-toolkit/tree/master/networkpolicy
 
+Automate repetitive and critical tasks like a boss and move to the next level. You don't need the qualifications of a NASA engineer to manage OpenShift !
