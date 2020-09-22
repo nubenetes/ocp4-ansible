@@ -29,7 +29,7 @@ There's room for improvement on this code:
 
 The following solutions can help to achieve an automated way of managing github teams and users:
 
-- Automated management of github teams and users with GitHub API Rest: a custom development with [GitHub API Rest](https://docs.github.com/en/rest/reference/teams) can be a good approach in case you need an automated and scalable solution or a sync against your i.e. on-premises LDAP. Hopefully [github cli](https://cli.github.com/) will also provide this functionality in the near future. Also, 
+- Automated management of github teams and users with GitHub API Rest: a custom development with [GitHub API Rest](https://docs.github.com/en/rest/reference/teams) can be a good approach in case you need an automated and scalable solution or a sync against your i.e. on-premises LDAP. Hopefully [github cli](https://cli.github.com/) will also provide this functionality in the near future.  
 - Automated management of github teams and users with 3rd party solutions:
     - [Team synchronization across GitHub and Azure Active Directory](https://github.blog/2019-05-06-team-synchronization-across-github-and-azure-active-directory/)
     - https://github.com/github/ldap-teamsync : Sync GitHub teams to groups in Active Directory when any authentication method for GitHub. The original target was SAML, but is not restricted to this authentication method.
