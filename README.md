@@ -25,7 +25,7 @@ There's room for improvement on this code:
 - ansible's with_subelements is deprecated and "ansible loop subelements" should be implemented instead.
 
 ## How to export kubernetes resources without metadata to be used as templates
-```oc/kubectl --export``` is deprecated. Setup one of the following [kubectl plugins](https://github.com/kubernetes-sigs/krew-index/blob/master/plugins.md) in order to export kubernetes resources without metadata. You will obtain a valid kubernetes manifest that can be applied as a template in your ansible tasks:
+```oc/kubectl --export``` is deprecated (click [here](https://stackoverflow.com/questions/43941772/get-yaml-for-deployed-kubernetes-services)). Setup one of the following [kubectl plugins](https://github.com/kubernetes-sigs/krew-index/blob/master/plugins.md) in order to export kubernetes resources without metadata. You will obtain a valid kubernetes manifest that can be applied as a template in your ansible tasks:
 - [kubectl-neat](https://github.com/itaysk/kubectl-neat) Remove clutter from Kubernetes manifests to make them more readable.
 - [kubectl-eksporter](https://github.com/Kyrremann/kubectl-eksporter) is a kubectl plugin designed to export Kubernetes resources, and remove pre-defined set of fields. You can finally export resources with `kubectl get pod <pod-id> -o yaml` and skip the `status` field
 
