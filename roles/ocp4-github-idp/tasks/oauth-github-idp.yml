@@ -7,7 +7,7 @@
   environment:
     K8S_AUTH_KUBECONFIG: "{{ kubeconfig }}"
 
-- name: '[POST-OAUTH][GITHUB] Apply OAuth GitHub Cient Secret manifest (not working due to inconsistency in base64 output)'
+- name: '[POST-OAUTH][GITHUB] Apply OAuth GitHub Cient Secret manifest'
   k8s:
     kubeconfig: "{{ kubeconfig }}"
     state: present
