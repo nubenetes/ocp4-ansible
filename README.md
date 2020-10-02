@@ -17,12 +17,13 @@ Another interesting point is how to recover and filter out data from OCP with i.
 
 **Security in Cloud technologies like OpenShift is a must. Please avoid using cluster-admin unless absolutely necessary. Likewise, please don't run Proof of Concepts in production clusters.**
 
-Lastly, **provisioning secrets** with **Ansible Tower's vault** was also a requirement to make sure no secrets where saved in a repository. See the documented procedure [here](roles/ocp4-github-idp/README.md).
+Lastly, **provisioning secrets** with **Ansible Tower Vault** was also a requirement to make sure no secrets where saved in a repository. See the documented procedure [here](roles/ocp4-github-idp/README.md).
 
 ## Improvements
 There's room for improvement on this code: 
 - *K8S_AUTH_KUBECONFIG* & ansible k8s' *kubeconfig* should be defined globally or per playbook instead of per ansible task (they couldn't be implemented by some constraints with the base code or Ansible Tower's config).
-- ansible's with_subelements is deprecated and "ansible loop subelements" should be implemented instead.
+- ansible with_subelements is deprecated and "ansible loop subelements" should be implemented instead.
+- github_teams was defined & developed before github_groupsync_teams in site.yml. To avoid data duplication github_teams could be removed by updating the corresponding jinja template along with the documentation. 
 
 ## Team synchronization across GitHub and your master LDAP
 [GitHub IDP on OCP4](https://docs.openshift.com/container-platform/4.5/authentication/identity_providers/configuring-github-identity-provider.html) requires groups (GitHub Teams) and users to be setup manually via GitHub Web UI.
