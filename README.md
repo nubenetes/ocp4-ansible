@@ -7,11 +7,11 @@ The above roles were developed and integrated with a clone of [this repo](https:
 
 This shared code is kind of simple, although to be honest it took me a while to find the working solution considering my lack of ansible projects for the last two years. It was also my first significant experience with Ansible Tower (I am more familiar with Jenkins to even manage ansible or terraform jobs). We had no access to the server hosting Ansible Tower and a bit of reverse engineering was needed to identify things like the right file paths or a valid kubeconfig.
 
-Ansible's k8s module was implemented following the good tips of the team leader (the mentioned red hat consultant).
+**Ansible k8s module** was implemented following the good tips of the team leader (the mentioned red hat consultant).
 
 I remembered how [variables](site.yml) with nested items (lists and dictionaries) can be defined in a data structure to define and setup a major issue not yet implemented by the customer: and **IDP like GitHub with RBAC permissions**. 
 
-The design of this data structure and how to recover nested values from it with ansible's loop or ansible's with_subelements was also a needed achievement to learn how to setup and automate other complex tasks. See ansible task ['Apply Roles to Groups'](roles/ocp4-github-idp/tasks/rbac.yml) & ansible task ['Apply Default Quota to All Projects that END with a string'](roles/ocp4-project-quota-management/tasks/project-quota.yml).
+The design of this data structure and how to recover nested values from it with **ansible loop** or **ansible with_subelements** was also a needed achievement to learn how to setup and automate other complex tasks. See ansible task ['Apply Roles to Groups'](roles/ocp4-github-idp/tasks/rbac.yml) & ansible task ['Apply Default Quota to All Projects that END with a string'](roles/ocp4-project-quota-management/tasks/project-quota.yml).
 
 Another interesting point is how to recover and filter out data from OCP with i.e. an oc command, data (a list of kubernetes resources) that is then saved and processed in a json variable. See ansible task ['Apply Default Quota to All Projects that END with a string'](roles/ocp4-project-quota-management/tasks/project-quota.yml).
 
@@ -21,9 +21,10 @@ Lastly, **provisioning secrets** with **Ansible Tower Vault** was also a require
 
 ## Improvements
 There's room for improvement on this code: 
-- *K8S_AUTH_KUBECONFIG* & ansible k8s' *kubeconfig* should be defined globally or per playbook instead of per ansible task (they couldn't be implemented by some constraints with the base code or Ansible Tower's config).
+- *K8S_AUTH_KUBECONFIG* & ansible k8s module *kubeconfig* should be defined globally or per playbook instead of per ansible task (they couldn't be implemented by some constraints with the base code or Ansible Tower's config).
 - ansible with_subelements is deprecated and "ansible loop subelements" should be implemented instead.
 - github_teams was defined & developed before github_groupsync_teams in site.yml. To avoid data duplication github_teams could be removed by updating the corresponding jinja template along with the documentation. 
+- [ocp4-project-quota-management](roles/ocp4-project-quota-management/README.md) has been designed and tested against a single OCP cluster. The existing code could evolve to more complex solutions where each enviroment (dev, qa, ua, prod, etc) and corresponding namespaces are setup in dedicated OCP clusters (dev, qa, ua, prod, etc).
 
 ## Team synchronization across GitHub and your master LDAP
 [GitHub IDP on OCP4](https://docs.openshift.com/container-platform/4.5/authentication/identity_providers/configuring-github-identity-provider.html) requires groups (GitHub Teams) and users to be setup manually via GitHub Web UI.
