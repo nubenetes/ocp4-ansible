@@ -1,4 +1,4 @@
-# Configuration Management of OpenShift 4 with Ansible Roles and Ansible Tower
+# Configuration Management of OpenShift 4 with Ansible Roles and Ansible Tower. GitHub Identity Provider with IAM/RBAC on OCP4. Project Quota Management & Limits
 My ansible roles for OpenShift 4:
 - [ocp4-github-idp](roles/ocp4-github-idp/README.md)
 - [ocp4-project-quota-management](roles/ocp4-project-quota-management/README.md)
@@ -9,7 +9,7 @@ This shared code is kind of simple, although to be honest it took me a while to 
 
 **Ansible k8s module** was implemented following the good tips of the team leader (the mentioned red hat consultant).
 
-I remembered how [variables](site.yml) with nested items (lists and dictionaries) can be defined in a data structure to define and setup a major issue not yet implemented by the customer: and **IDP like GitHub with RBAC permissions**. 
+I remembered how [variables](site.yml) with nested items (lists and dictionaries) can be defined in a data structure to define and setup a major issue not yet implemented by the customer: and **IDP like GitHub with IAM/RBAC permissions**. 
 
 The design of this data structure and how to recover nested values from it with **ansible loop** or **ansible with_subelements** was also a needed achievement to learn how to setup and automate other complex tasks. See ansible task ['Apply Roles to Groups'](roles/ocp4-github-idp/tasks/rbac.yml) & ansible task ['Apply Default Quota to All Projects that END with a string'](roles/ocp4-project-quota-management/tasks/project-quota.yml).
 
